@@ -3,11 +3,13 @@ package net.yslibrary.android.partiallystickylistheader.fragment;
 import android.os.Bundle;
 import android.app.ListFragment;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
@@ -15,15 +17,24 @@ import net.yslibrary.android.partiallystickylistheader.R;
 
 import net.yslibrary.android.partiallystickylistheader.fragment.dummy.DummyContent;
 import net.yslibrary.android.partiallystickylistheader.util.UIUtil;
+import net.yslibrary.android.partiallystickylistheader.widget.PagerSlidingTabStrip;
+import net.yslibrary.android.partiallystickylistheader.widget.SlidingTabLayout;
+
+import java.util.ArrayList;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import butterknife.OnClick;
 
-public class MainListFragment extends ListFragment implements AbsListView.OnScrollListener {
+public class MainListFragment extends ListFragment implements AbsListView.OnScrollListener, PagerSlidingTabStrip.OnTabChangeListener {
+
+    private String TAG = MainListFragment.class.getSimpleName();
 
     private int mActionBarHeight = 0;
 
     private int mListTop = 0;
+
+    private int mCurrentTab = -1;
 
     private int minHeaderTranslation = 0;
 
@@ -40,8 +51,11 @@ public class MainListFragment extends ListFragment implements AbsListView.OnScro
     @InjectView(R.id.tab_placeholder)
     View mTabsPlaceHolder;
 
-    @InjectView(R.id.sticky_header)
-    RelativeLayout mStickyTabs;
+//    @InjectView(R.id.sticky_header)
+//    RelativeLayout mStickyTabs;
+
+    @InjectView(R.id.list_tabs)
+    PagerSlidingTabStrip mStickyTabs;
 
 
     public static MainListFragment newInstance() {
@@ -82,7 +96,9 @@ public class MainListFragment extends ListFragment implements AbsListView.OnScro
 
         localListView.addHeaderView(mHeaderContainer);
 
+        // view要素の取得
         ButterKnife.inject(this, mRootView);
+
 
         getActionBarHeight();
 
@@ -93,6 +109,8 @@ public class MainListFragment extends ListFragment implements AbsListView.OnScro
             }
         });
 
+        initTabs();
+
         return mRootView;
     }
 
@@ -101,6 +119,13 @@ public class MainListFragment extends ListFragment implements AbsListView.OnScro
         super.onViewCreated(view, savedInstanceState);
 
         getListView().setOnScrollListener(this);
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        mStickyTabs.setCurrentTab(0);
     }
 
     @Override
@@ -123,6 +148,20 @@ public class MainListFragment extends ListFragment implements AbsListView.OnScro
         return mActionBarHeight;
     }
 
+    private void initTabs() {
+        mStickyTabs.addTab(mStickyTabs.newTabSpec(0)
+                .setLabel("tab a").setValue("-"));
+
+        mStickyTabs.addTab(mStickyTabs.newTabSpec(1)
+                .setLabel("tab b").setValue("-"));
+
+        mStickyTabs.addTab(mStickyTabs.newTabSpec(2)
+                .setLabel("tab c").setValue("-"));
+
+        mStickyTabs.notifyDataSetChanged();
+        mStickyTabs.setOnTabChangeListener(this);
+    }
+
     @Override
     public void onScrollStateChanged(AbsListView view, int scrollState) {
 
@@ -131,14 +170,18 @@ public class MainListFragment extends ListFragment implements AbsListView.OnScro
     @Override
     public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 
-        int actionBarHeight = getActionBarHeight();
+        int listviewTop = mListTop;
 
         if (firstVisibleItem <= 1) {
 
-            actionBarHeight = Math.max(mTabsPlaceHolder.getTop() + mHeaderContainer.getTop(), mActionBarHeight);
+            listviewTop = Math.max(mTabsPlaceHolder.getTop() + mHeaderContainer.getTop(), listviewTop);
         } else {
-            mStickyTabs.setTranslationY(actionBarHeight);
+
         }
+
+        Log.d(TAG, "actionBarHeight: " + String.valueOf(listviewTop));
+
+        mStickyTabs.setTranslationY(listviewTop);
     }
 
     /**
@@ -167,5 +210,24 @@ public class MainListFragment extends ListFragment implements AbsListView.OnScro
         }
 
         return k + (-j + i * localView.getHeight());
+    }
+
+    @OnClick({
+            R.id.header_button_a,
+            R.id.header_button_b
+    })
+    public void onTabClick(Button button) {
+        Log.d(TAG, "button click" + button.getId());
+
+
+    }
+
+    @Override
+    public void onTabChanged(int tabPosition) {
+        if (tabPosition == mCurrentTab) {
+            return;
+        }
+
+        mCurrentTab = tabPosition;
     }
 }

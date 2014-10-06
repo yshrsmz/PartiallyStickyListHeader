@@ -11,37 +11,39 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
-    <TextView
-        android:id="@android:id/empty"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="empty list"/>
-
-    <!--<net.yslibrary.android.partiallystickylistheader.widget.SlidingTabLayout-->
-        <!--android:id="@+id/list_tabs"-->
+    <!--<TextView-->
+        <!--android:id="@android:id/empty"-->
         <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"/>-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:gravity="center"-->
+        <!--android:text="empty list"/>-->
 
-    <RelativeLayout
-        android:id="@+id/sticky_header"
+    <net.yslibrary.android.partiallystickylistheader.widget.PagerSlidingTabStrip
+        android:id="@+id/list_tabs"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/tab_height">
+        android:layout_height="@dimen/tab_height"
+        android:background="@android:color/holo_blue_bright"/>
 
-        <Button
-            android:id="@+id/sticky_button_a"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:text="TAB A"/>
+    <!--<RelativeLayout-->
+        <!--android:id="@+id/sticky_header"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="@dimen/tab_height"-->
+        <!--android:background="@android:color/holo_blue_dark">-->
 
-        <Button
-            android:id="@+id/sticky_button_b"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/sticky_button_a"
-            android:text="TAB B"/>
+        <!--<Button-->
+            <!--android:id="@+id/sticky_button_a"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignParentLeft="true"-->
+            <!--android:text="TAB A"/>-->
 
-        </RelativeLayout>
+        <!--<Button-->
+            <!--android:id="@+id/sticky_button_b"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_toRightOf="@+id/sticky_button_a"-->
+            <!--android:text="TAB B"/>-->
+
+        <!--</RelativeLayout>-->
 
 </FrameLayout>

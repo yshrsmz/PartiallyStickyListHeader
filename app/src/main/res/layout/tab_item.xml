@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="fill_parent">
+
+    <TextView
+        android:textSize="13.0dip"
+        android:gravity="center_horizontal"
+        android:id="@+id/tab_value"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="444.9M"
+        android:fontFamily="sans-serif-light" />
+    <TextView
+        android:textSize="14.0dip"
+        android:ellipsize="none"
+        android:gravity="center_horizontal"
+        android:id="@+id/tab_label"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="test"
+        android:lines="1"
+        android:textAllCaps="true"
+        android:fontFamily="sans-serif-light" />
+</LinearLayout>
